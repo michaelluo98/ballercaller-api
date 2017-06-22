@@ -51,3 +51,24 @@ games = Game.all
 		game: games.sample
 	)
 end
+
+teams = Team.all
+user_length = users.length
+
+# not truly random? the bottom doesnt move with the top 
+teams.each do |team| 
+	team.players = users.take(rand(1..user_length))
+end
+
+10.times do 
+	FavoriteCourt.create(
+		user: users.sample,
+		court: courts.sample,
+		count: rand(1..10)
+	)
+end
+
+
+
+
+

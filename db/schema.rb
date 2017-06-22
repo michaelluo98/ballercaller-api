@@ -78,12 +78,12 @@ ActiveRecord::Schema.define(version: 20170622053934) do
   end
 
   create_table "histories", force: :cascade do |t|
-    t.bigint "user_id_id"
+    t.bigint "user_id"
     t.bigint "team_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_histories_on_team_id"
-    t.index ["user_id_id"], name: "index_histories_on_user_id_id"
+    t.index ["user_id"], name: "index_histories_on_user_id"
   end
 
   create_table "teams", force: :cascade do |t|
