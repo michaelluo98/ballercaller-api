@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-	has_many :teams, dependent: :nullify
 	has_many :favoritecourts, dependent: :destroy
 	has_many :favoriteteammates, dependent: :destroy
 
@@ -25,4 +24,5 @@ class User < ApplicationRecord
 						class_name: 'FavoriteTeammate',
 						foreign_key: 'user_two_id'
 
+	has_secure_password
 end
