@@ -61,7 +61,7 @@ teams.each do |team|
 end
 
 10.times do 
-	FavoriteCourt.create(
+	Favoritecourt.create(
 		user: users.sample,
 		court: courts.sample,
 		count: rand(1..10)

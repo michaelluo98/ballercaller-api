@@ -7,6 +7,7 @@ class Api::BaseController < ApplicationController
 		@user ||= User.find_by(api_key: api_key) unless api_key.nil?
 	end
 
+
 	private
 
 	def api_key 
