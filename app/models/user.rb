@@ -15,14 +15,16 @@ class User < ApplicationRecord
 						foreign_key: 'recipient_id'
 
 	has_many :friendships 
-	has_many :friends, through: :friendships, source: :user, foreign_key: 'friend_id'
+	has_many :friends, 
+						through: :friendships, 
+						source: :user, 
+						foreign_key: 'friend_id'
 
-	has_many :first_teammate,
-						class_name: 'FavoriteTeammate',
-						foreign_key: 'user_one_id'
-	has_many :second_teammate,
-						class_name: 'FavoriteTeammate',
-						foreign_key: 'user_two_id'
+	has_many :favoriteteammates 
+	has_many :teammates, 
+						through: :favoriteteammates, 
+						source: :user, 
+						foreign_key: 'teammate_id'
 
 	has_secure_password
 end
