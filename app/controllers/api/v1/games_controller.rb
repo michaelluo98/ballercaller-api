@@ -5,6 +5,9 @@ class Api::V1::GamesController < Api::BaseController
 	def create 
 		game = Game.new(game_params)
 		if game.save 
+			t = Team.create(game: game, name: "#{game.name} #1")
+			Team.create(game: game, name: "#{game.name} #2")
+			t.players << current_user
 			render json: { status: :success, id: game.id }
 		else 
 			render json: { status: :failure, 
@@ -25,7 +28,8 @@ class Api::V1::GamesController < Api::BaseController
 			:start_time, 
 			:extra_info, 
 			:status, 
-			:court_id
+			:court_id, 
+			:name
 		)
 	end
 

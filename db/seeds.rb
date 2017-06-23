@@ -33,6 +33,7 @@ statuses = [:waiting, :full, :over]
 10.times do 
 	Game.create(
 		game_mod: users.sample, 
+		name: Faker::Hipster.word(3),
 		mode: modes.sample,
 		start_time: Faker::Time.between(Date.today,
 																		rand(1..10).days.from_now,
