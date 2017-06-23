@@ -27,4 +27,19 @@ class User < ApplicationRecord
 						foreign_key: 'teammate_id'
 
 	has_secure_password
+
+	private 
+
+	before_create do |user| 
+		user.send(:generate_api_key)
+	end
+
+  def generate_api_key 
+		loop do 
+			self.api_key = SecureRandom.hex(32)
+			break unless User.exists?(api_key: api_key)
+		end
+	end
+
+
 end
