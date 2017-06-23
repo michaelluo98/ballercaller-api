@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170622053934) do
+ActiveRecord::Schema.define(version: 20170623003211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,13 +55,25 @@ ActiveRecord::Schema.define(version: 20170622053934) do
     t.index ["user_two_id"], name: "index_favorite_teammates_on_user_two_id"
   end
 
-  create_table "friends", force: :cascade do |t|
-    t.bigint "user_one_id"
-    t.bigint "user_two_id"
+  create_table "favoriteteammates", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "teammate_id"
+    t.integer "interactions"
+    t.boolean "is_friend"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_one_id"], name: "index_friends_on_user_one_id"
-    t.index ["user_two_id"], name: "index_friends_on_user_two_id"
+    t.index ["teammate_id"], name: "index_favoriteteammates_on_teammate_id"
+    t.index ["user_id"], name: "index_favoriteteammates_on_user_id"
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "teammate_id"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["teammate_id"], name: "index_friendships_on_teammate_id"
+    t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
   create_table "games", force: :cascade do |t|
@@ -103,5 +115,7 @@ ActiveRecord::Schema.define(version: 20170622053934) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "favoriteteammates", "users"
+  add_foreign_key "friendships", "users"
   add_foreign_key "histories", "teams"
 end
