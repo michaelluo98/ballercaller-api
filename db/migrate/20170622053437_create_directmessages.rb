@@ -1,6 +1,6 @@
-class CreateDirectMessages < ActiveRecord::Migration[5.1]
+class CreateDirectmessages < ActiveRecord::Migration[5.1]
   def change
-    create_table :direct_messages do |t|
+    create_table :directmessages do |t|
       t.text :message
       t.references :sender
       t.references :recipient

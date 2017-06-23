@@ -1,6 +1,6 @@
-class CreateFavoriteCourts < ActiveRecord::Migration[5.1]
+class CreateFavoritecourts < ActiveRecord::Migration[5.1]
   def change
-    create_table :favorite_courts do |t|
+    create_table :favoritecourts do |t|
       t.references :user
       t.references :court
       t.integer :count

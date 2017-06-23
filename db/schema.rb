@@ -24,35 +24,24 @@ ActiveRecord::Schema.define(version: 20170623003211) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "direct_messages", force: :cascade do |t|
+  create_table "directmessages", force: :cascade do |t|
     t.text "message"
     t.bigint "sender_id"
     t.bigint "recipient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["recipient_id"], name: "index_direct_messages_on_recipient_id"
-    t.index ["sender_id"], name: "index_direct_messages_on_sender_id"
+    t.index ["recipient_id"], name: "index_directmessages_on_recipient_id"
+    t.index ["sender_id"], name: "index_directmessages_on_sender_id"
   end
 
-  create_table "favorite_courts", force: :cascade do |t|
+  create_table "favoritecourts", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "court_id"
     t.integer "count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["court_id"], name: "index_favorite_courts_on_court_id"
-    t.index ["user_id"], name: "index_favorite_courts_on_user_id"
-  end
-
-  create_table "favorite_teammates", force: :cascade do |t|
-    t.bigint "user_one_id"
-    t.bigint "user_two_id"
-    t.integer "count"
-    t.integer "is_friend"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_one_id"], name: "index_favorite_teammates_on_user_one_id"
-    t.index ["user_two_id"], name: "index_favorite_teammates_on_user_two_id"
+    t.index ["court_id"], name: "index_favoritecourts_on_court_id"
+    t.index ["user_id"], name: "index_favoritecourts_on_user_id"
   end
 
   create_table "favoriteteammates", force: :cascade do |t|
@@ -117,5 +106,4 @@ ActiveRecord::Schema.define(version: 20170623003211) do
 
   add_foreign_key "favoriteteammates", "users"
   add_foreign_key "friendships", "users"
-  add_foreign_key "histories", "teams"
 end
