@@ -33,6 +33,20 @@ class Api::V1::GamesController < Api::BaseController
 		end
 	end
 
+	def update 
+		if @game.update(game_params) 
+			render json: {
+				status: :success, 
+				message: 'you have updated your game'
+			}
+		else 
+			render json: {
+				status: :failure,
+				errors: @game.errors.full_messages.join('')
+			}
+		end
+	end
+
 	private 
 
 	def find_game 
@@ -40,7 +54,7 @@ class Api::V1::GamesController < Api::BaseController
 	end
 
 	def authenticate_mod! 
-		head :unauthorized unless current_user.id == @game.game_mod.id
+		head :unauthorized unless current_user == @game.game_mod
 	end
 
 	def game_params
