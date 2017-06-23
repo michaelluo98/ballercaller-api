@@ -3,9 +3,9 @@ class Game < ApplicationRecord
   belongs_to :game_mod, class_name: 'User' 
   belongs_to :court
 
-	has_many :teams, dependent: :destroy
+	has_many :teams
 
 	enum mode: [:threes, :fours, :fives]
-	enum status: [:waiting, :full, :over]
+	enum status: [:waiting, :full, :over, :started]
 
 end

@@ -15,7 +15,7 @@ class Api::V1::UsersController < Api::BaseController
 	end
 
 	def destroy
-		puts @user
+		#puts @user
 		if @user.destroy
 			render json: { message: "user was destroyed", status: :success }
 		else

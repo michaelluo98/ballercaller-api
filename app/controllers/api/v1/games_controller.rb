@@ -1,6 +1,7 @@
 class Api::V1::GamesController < Api::BaseController
 	before_action :authenticate_user!, except: [:index, :show] 
   before_action :find_game, only: [:show, :update, :destroy]
+	before_action :authenticate_mod!, only: [:destroy, :update]
 
 	def create 
 		game = Game.new(game_params)
@@ -15,10 +16,31 @@ class Api::V1::GamesController < Api::BaseController
 		end
 	end
 
+	def destroy
+		if @game.update(status: 2)
+			@game.teams.each do |team|
+				puts team
+			end
+			render json: {
+				status: :success, 
+				message: "you have successfully deleted you game"
+			}
+		else 
+			render json: {
+				status: :failure, 
+				errors: @game.errors.full_messages.join(''), 
+			}
+		end
+	end
+
 	private 
 
 	def find_game 
 		@game = Game.find_by(id: params[:id])
+	end
+
+	def authenticate_mod! 
+		head :unauthorized unless current_user.id == @game.game_mod.id
 	end
 
 	def game_params
@@ -42,6 +64,7 @@ end
   	#"status":"waiting", 
 		#"extra_info":"blahblahblah", 
 		#"start_time":"Thu, 22 Jun 2017 22:55:02 -0700", 
-		#"court_id":"11"
+		#"court_id":"11", 
+    #"name":"blahblah"
 	#}
 #}
