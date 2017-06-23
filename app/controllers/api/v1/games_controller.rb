@@ -47,6 +47,13 @@ class Api::V1::GamesController < Api::BaseController
 		end
 	end
 
+	def show 
+		render json: {
+			status: :success, 
+			game: @game
+		}
+	end
+
 	private 
 
 	def find_game 
