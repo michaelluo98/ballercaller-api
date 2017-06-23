@@ -3,6 +3,14 @@ class Api::V1::GamesController < Api::BaseController
   before_action :find_game, only: [:show, :update, :destroy]
 	before_action :authenticate_mod!, only: [:destroy, :update]
 
+	def index
+		@games = Game.all
+		render json: {
+			status: :success, 
+			games: @games
+		}
+	end
+
 	def create 
 		game = Game.new(game_params)
 		if game.save 
