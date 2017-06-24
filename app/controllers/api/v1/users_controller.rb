@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action :find_user, only: [:destroy]
+  before_action :find_user, only: [:destroy, :history]
 	before_action :authenticate_user!, only: [:destroy]
 	#skip_before_action :verify_authenticity_token
 
@@ -23,6 +23,19 @@ class Api::V1::UsersController < Api::BaseController
 		end
 	end
 
+	def history
+		@games = []
+		@user.teams.each do |team| 
+			if !@games.include?(team.game)
+				@games.push(team.game) 
+			end
+		end
+		render json: {
+			status: :success, 
+			games: @games, 
+			player: @user
+		}
+	end
 
 	private
 

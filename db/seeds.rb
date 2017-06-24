@@ -31,9 +31,10 @@ modes = [:threes, :fours, :fives]
 statuses = [:waiting, :full, :over]
 
 10.times do 
-	Game.create(
-		game_mod: users.sample, 
-		name: Faker::Hipster.words(3),
+	u = users.sample
+	g = Game.create(
+		game_mod: u, 
+		name: Faker::Hipster.word,
 		mode: modes.sample,
 		start_time: Faker::Time.between(Date.today,
 																		rand(1..10).days.from_now,
@@ -42,18 +43,14 @@ statuses = [:waiting, :full, :over]
 		status: statuses.sample, 
 		court: courts.sample 
 	)
+	t = Team.create(game: g, name: "#{g.name} #1")
+	t.players << u
+	Team.create(game: g, name: "#{g.name} #2")
 end
 
 games = Game.all
-
-10.times do 
-	Team.create(
-		name: Faker::Hipster.word, 
-		game: games.sample
-	)
-end
-
 teams = Team.all
+
 user_length = users.length
 
 # not truly random? the bottom doesnt move with the top 
