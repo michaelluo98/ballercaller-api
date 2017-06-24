@@ -53,9 +53,11 @@ class Api::V1::GamesController < Api::BaseController
 	end
 
 	def show 
+		teams = Team.where(game: @game)
 		render json: {
 			status: :success, 
-			game: @game
+			game: @game,
+			teams: teams
 		}
 	end
 

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 			patch 'users/:id/friendships/:friend_id/accept', to: 'friendships#accept'
 			patch 'users/:id/friendships/:friend_id/reject', to: 'friendships#reject'
 			get 'users/:id/friendships', to: 'friendships#index'
+			post 'games/:id/quickjoin', to: 'teams#quickjoin'
 			
 
 
