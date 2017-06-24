@@ -26,9 +26,6 @@ class Api::V1::GamesController < Api::BaseController
 
 	def destroy
 		if @game.update(status: 2)
-			@game.teams.each do |team|
-				puts team
-			end
 			render json: {
 				status: :success, 
 				message: "you have successfully deleted you game"
@@ -81,6 +78,12 @@ class Api::V1::GamesController < Api::BaseController
 			:status, 
 			:court_id, 
 			:name
+		)
+	end
+
+	def status_params
+		params.require(:game).permit(
+			:status
 		)
 	end
 
