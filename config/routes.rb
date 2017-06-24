@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 			get 'users/:id/friendships', to: 'friendships#index'
 			post 'games/:id/quickjoin', to: 'teams#quickjoin'
 			post 'games/:id/teams/:team_id', to: 'teams#join'
+			patch 'games/:id/teams/:team_id', to: 'teams#quit'
 			
 
 
