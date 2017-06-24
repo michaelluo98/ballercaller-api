@@ -6,6 +6,11 @@ Rails.application.routes.draw do
 			resources :games, only: [:create, :update, :destroy, :show, :index]
 
 			post 'users/:id/friendships', to: 'friendships#sendrequest'
+			patch 'users/:id/friendships/:friend_id/accept', to: 'friendships#accept'
+			patch 'users/:id/friendships/:friend_id/reject', to: 'friendships#reject'
+			get 'users/:id/friendships', to: 'friendships#index'
+			
+
 
 		end
 	end
