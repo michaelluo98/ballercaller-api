@@ -17,7 +17,19 @@ class Api::V1::DirectmessagesController < Api::BaseController
 	end
 
 	def index 
-
+		friend = User.find_by(id: params[:friend_id])
+		sent_dms = Directmessage.where(sender: current_user,
+																	 recipient: friend)
+		received_dms = Directmessage.where(sender: friend,
+																			 recipient: current_user)
+		dms = Directmessage.where(sender: [friend, current_user], 
+															recipient: [friend, current_user])
+		render json: {
+			status: :success, 
+			sent: sent_dms, 
+			received: received_dms, 
+			dms: dms
+		}
 	end
 
 	private
