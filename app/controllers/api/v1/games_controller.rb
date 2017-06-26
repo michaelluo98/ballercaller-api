@@ -4,7 +4,7 @@ class Api::V1::GamesController < Api::BaseController
 	before_action :authenticate_mod!, only: [:destroy, :update]
 
 	def index
-		@games = Game.all
+		@games = Game.where('start_time > ?', DateTime.now).where(status: 'waiting')
 		render json: {
 			status: :success, 
 			games: @games
@@ -53,9 +53,11 @@ class Api::V1::GamesController < Api::BaseController
 	end
 
 	def show 
+		teams = Team.where(game: @game)
 		render json: {
 			status: :success, 
-			game: @game
+			game: @game,
+			teams: teams
 		}
 	end
 

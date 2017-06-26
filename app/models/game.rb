@@ -6,6 +6,6 @@ class Game < ApplicationRecord
 	has_many :teams
 
 	enum mode: [:threes, :fours, :fives]
-	enum status: [:waiting, :full, :over, :started]
+	enum status: [:waiting, :full, :over]
 
 end
