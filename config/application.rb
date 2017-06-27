@@ -36,6 +36,7 @@ module BallercallerApi
 	        resource '*', headers: :any, methods: [:get, :post, :options, :patch, :delete]
 	     end
 	  end
+		config.active_job.queue_adapter = :delayed_job
 
   end
 end
