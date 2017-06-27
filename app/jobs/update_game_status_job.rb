@@ -6,7 +6,7 @@ class UpdateGameStatusJob < ApplicationJob
 				.where(user: [player, player2],
 							teammate: [player, player2]).nil?)
 			is_friend = true
-			if (Friendship.where(user: player).nil?)
+			if (Friendship.find_by(user: player).nil?)
 				is_friend = false
 			end
 			Favoriteteammate.create(user: player, 
@@ -41,6 +41,18 @@ class UpdateGameStatusJob < ApplicationJob
 		end
 	end
 
+	def associate_courts(players, court)
+		players.each do |player| 
+			f = Favoritecourt.find_by(user: player)
+			if (f.nil?)
+				Favoritecourt.create(user: player, court: court, count: 1)
+			else 
+				new_count = f.count + 1 
+				f.update(count: new_count)
+			end
+		end
+	end
+
 	#to start: $ bundle exec rake jobs:work
   def perform(game)
     game.update(status: 'over')
@@ -51,6 +63,7 @@ class UpdateGameStatusJob < ApplicationJob
 		players.concat(teamone.players)
 		players.concat(teamtwo.players)
 		associate_players(players)
+		associate_courts(players, game.court)
   end
 
 end
