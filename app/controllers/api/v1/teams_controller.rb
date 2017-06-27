@@ -6,8 +6,21 @@ class Api::V1::TeamsController < Api::BaseController
 		teams = Team.where(game: game)
 		teamone = teams[0]
 		teamtwo = teams[1]
-		if (teamone.players.length > teamtwo.players.length)
+		teamone_len = teamone.players.length
+		teamtwo_len = teamtwo.players.length
+		team_max = game.read_attribute_before_type_cast(:mode) + 3
+		game_max = team_max * 2
+		if (team_max <= teamone_len) 
+			&& (team_max <= teamtwo_len)
+			render json: {
+				status: :failure, 
+				errors: 'The teams are both already full'
+			}
+		elsif (teamone_len > teamtwo_len)
 			teamtwo.players << current_user
+			if (teamtwo.players.length + teamone.players.length == game_max) 
+				game.update(status: 'full')
+			end
 			render json: {
 				status: :success, 
 				game: game, 
@@ -16,6 +29,9 @@ class Api::V1::TeamsController < Api::BaseController
 			}
 		else 
 			teamone.players << current_user 
+			if (teamtwo.players.length + teamone.players.length == game_max) 
+				game.update(status: 'full')
+			end
 			render json: {
 				status: :success, 
 				game: game, 
