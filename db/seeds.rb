@@ -5,16 +5,23 @@ Team.delete_all
 
 PASSWORD = 'pass123'
 
-users = User.create([
-	{ first_name: 'Michael', last_name: 'Luo', 
-		email: 'michaelluo98@gmail.com', password: PASSWORD }, 
-	{ first_name: 'Jon',	last_name: 'Snow', 
-		email: 'jonsnow@winterfell.ca', password: PASSWORD }, 
-  { first_name: 'Dany', last_name: 'Targ', 
-		email: 'danytarg@mereen.ca', password: PASSWORD}, 
-	{ first_name: 'Tyrion', last_name: 'Lannister', 
-		email: 'tyrionlannister@kingslanding.ca', password: PASSWORD}
-])
+10.times do
+	User.create(
+		first_name: Faker::Name.first_name, 
+		last_name: Faker::Name.last_name, 
+		email: Faker::Internet.email, 
+		password: PASSWORD
+	)
+end
+
+User.create(
+	first_name: 'Michael', 
+	last_name: 'Luo', 
+	email: 'michaelluo98@gmail.com', 
+	password: PASSWORD
+)
+
+users = User.all
 
 10.times do 
 	Court.create(
@@ -30,14 +37,14 @@ courts = Court.all
 modes = [:threes, :fours, :fives]
 statuses = [:waiting, :full, :over]
 
-10.times do 
+30.times do 
 	u = users.sample
 	g = Game.create(
 		game_mod: u, 
 		name: Faker::Hipster.word,
 		mode: modes.sample,
 		start_time: Faker::Time.between(Date.today,
-																		rand(1..10).days.from_now,
+																		rand(1..20).days.from_now,
 																		:afternoon), 
     extra_info: Faker::Hipster.paragraph, 
 		status: statuses.sample, 
@@ -53,9 +60,18 @@ teams = Team.all
 
 user_length = users.length
 
-# not truly random? the bottom doesnt move with the top 
-teams.each do |team| 
-	team.players = users.take(rand(1..user_length))
+users.each do |user| 
+	teams = []
+	rand(1..10).times do 
+		t = Team.find(rand(1..60))
+		if (!teams.include?(t))
+			team_max = t.game.read_attribute_before_type_cast(:mode) + 3
+			if (t.players.length <= team_max)
+				user.teams << t
+				teams.push(t)
+			end
+		end
+	end
 end
 
 10.times do 
@@ -67,6 +83,60 @@ end
 end
 
 
+friendship_statuses = [:requested, :accepted, :rejected]
+
+users.each do |user|
+	others = User.where.not(id: user.id)
+	rand(0..5).times do 
+
+		friend = others.sample
+		if (Friendship.where(user: [user, friend], friend: [user, friend]).nil?)
+			status = friendship_statuses.sample
+			if (status != 'rejected') 
+				Friendship.create(user: user, friend: friend, status: status)
+				Friendship.create(user: friend, friend: user, status: status) 
+			else 
+				Friendship.create(user: user, friend: friend, status: 'requested')
+				Friendship.create(user: friend, friend: user, status: 'rejected')
+			end
+		end
+
+	end
+end
+
+users.each do |user|
+	others = User.where.not(id: user.id)
+	rand(0..5).times do 
+		teammate = others.sample
+		if (Favoriteteammate
+					.where(user: [user, teammate], teammate: [user, teammate]).nil?)
+			is_friend = true
+			if (Friendship.find_by(user: user).nil?)
+				is_friend = false
+			end
+			Favoriteteammate.create(user: user,	
+															teammate: teammate, 
+															interactions: rand(1..10), 
+															is_friend: is_friend)
+			Favoriteteammate.create(user: teammate,	
+															teammate: user, 
+															interactions: rand(1..10), 
+															is_friend: is_friend)
+		end
+	end
+end
 
 
+users.each do |user| 
+	others = User.where.not(id: user.id) 
+	rand(0..5).times do 
+		recipient = others.sample
+		Directmessage.create(sender: user, 
+												 recipient: recipient,
+												 message: Faker::Hipster.paragraph)
+		Directmessage.create(sender: recipient,
+												 recipient: user,
+												 message: Faker::Hipster.paragraph)
+	end
+end
 

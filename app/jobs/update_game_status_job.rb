@@ -1,7 +1,7 @@
 class UpdateGameStatusJob < ApplicationJob
   queue_as :default
 
-	def create_rows(player1, player2) 
+	def create_rows(player, player2) 
 		if (Favoriteteammate
 				.where(user: [player, player2],
 							teammate: [player, player2]).nil?)
