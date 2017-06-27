@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::BaseController
   before_action :find_user, only: [:destroy, :history]
-	before_action :authenticate_user!, only: [:destroy]
+	before_action :authenticate_user!, only: [:destroy, :history, :update]
 	#skip_before_action :verify_authenticity_token
 
 	def create
@@ -37,6 +37,31 @@ class Api::V1::UsersController < Api::BaseController
 		}
 	end
 
+	def show 
+		user = User.find_by(id: params[:id])
+		render json: {
+			status: :success, 
+			user: user
+		}
+	end
+
+	def update 
+		user = User.find_by(id: params[:id]) 
+		if (current_user != user)
+			head :unauthorized
+		elsif user.update(user_params) 
+			render json: {
+				status: :success, 
+				user: user
+			}
+		else 
+			render json: {
+				status: :failure, 
+				error: user.errors.full_messages.join(' ')
+			}
+		end
+	end
+
 	private
 
 	def user_params
@@ -52,5 +77,7 @@ class Api::V1::UsersController < Api::BaseController
 	def find_user
 		@user = User.find_by(id: params[:id])
 	end
+
+
 
 end
