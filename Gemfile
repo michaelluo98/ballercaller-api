@@ -29,6 +29,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan', '~> 1.10'
 gem 'active_model_serializers'
 gem 'rack-cors'
+gem 'delayed_job'
+gem 'delayed_job_active_record'
 
 
 
