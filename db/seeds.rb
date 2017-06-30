@@ -23,16 +23,37 @@ User.create(
 
 users = User.all
 
-10.times do 
-	Court.create(
-		address: Faker::Address.street_address,
-		postal_code: Faker::Address.zip_code, 
-		unit_num: Faker::Address.building_number, 
-		city: Faker::Address.city
-	)
-end
+courts = Court.create([
+	{name: 'Mount Plesant Park', address: '32 W 16th Avenue', 
+		province: 'BC' , city: 'Vancouver', postal_code: 'V5Y 1Y6'},
+	{name: 'Robert Lee YCMA', address: '955 Burrard Street', 
+		province: 'BC' , city: 'Vancouver', postal_code: 'V6Z 1Y2'},
+	{name: 'Hillcret Recreation Centre', address: '4575 Clancy Loranger Way', 
+		province: 'BC' , city: 'Vancouver', postal_code: 'V5Y 2M4'},
+	{name: 'Stanley Park', address: '1166 Stanley Park Drive', 
+		province: 'BC' , city: 'Vancouver', postal_code: 'V6J 5L1'},
+	{name: 'Hastings Park', address: '2901 E Hastings St', 
+		province: 'BC' , city: 'Vancouver', postal_code: 'V5K'},
+	{name: 'Queen Elizabeth Park', address: '33rd Avenue', 
+		province: 'BC' , city: 'Vancouver', postal_code: 'V5J 5L1'},
+	{name: 'Kitsilano Beach Park', address: '1499 Arbutus Street', 
+		province: 'BC' , city: 'Vancouver', postal_code: 'V5K 1B5'},
+	{name: 'Edmonds Community Centre', address: '7433 Edmonds Street', 
+		province: 'BC' , city: 'Vancouver', postal_code: 'V3N 1B2'},
+	{name: '6Pack Beach', address: '13180 Mitchell Road', 
+		province: 'BC' , city: 'Richmond', postal_code: 'V6V 1M8'}
+])
 
-courts = Court.all
+#10.times do 
+	#Court.create(
+		#address: Faker::Address.street_address,
+		#postal_code: Faker::Address.zip_code, 
+		#unit_num: Faker::Address.building_number, 
+		#city: Faker::Address.city
+	#)
+#end
+
+#courts = Court.all
 
 modes = [:threes, :fours, :fives]
 statuses = [:waiting, :full, :over]

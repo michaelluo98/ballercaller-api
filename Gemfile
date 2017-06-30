@@ -31,6 +31,7 @@ gem 'active_model_serializers'
 gem 'rack-cors'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
+gem 'geocoder'
 
 
 

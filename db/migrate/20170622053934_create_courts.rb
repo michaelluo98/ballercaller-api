@@ -3,7 +3,6 @@ class CreateCourts < ActiveRecord::Migration[5.1]
     create_table :courts do |t|
       t.string :address
       t.string :postal_code
-      t.string :unit_num
       t.string :city
 
       t.timestamps
