@@ -69,7 +69,8 @@ statuses = [:waiting, :full, :over]
 																		:afternoon), 
     extra_info: Faker::Hipster.paragraph, 
 		status: statuses.sample, 
-		court: courts.sample 
+		court: courts.sample, 
+		setting: [true, false].sample 
 	)
 	t = Team.create(game: g, name: "#{g.name} #1")
 	t.players << u

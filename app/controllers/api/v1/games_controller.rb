@@ -5,9 +5,14 @@ class Api::V1::GamesController < Api::BaseController
 
 	def index
 		@games = Game.where('start_time > ?', DateTime.now).where(status: 'waiting')
+		@courts = []
+		@games.each do |game|
+			@courts << Court.find_by(id: game.court_id)
+		end
 		render json: {
 			status: :success,
-			games: @games
+			games: @games,
+			courts: @courts
 		}
 	end
 
