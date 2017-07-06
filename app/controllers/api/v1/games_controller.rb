@@ -4,7 +4,7 @@ class Api::V1::GamesController < Api::BaseController
 	before_action :authenticate_mod!, only: [:destroy, :update]
 
 	def index
-		@games = Game.where('start_time > ?', DateTime.now).where(status: 'waiting')
+		@games = Game.where('start_time > ?', DateTime.now)
 		@courts = []
 		@games.each do |game|
 			@courts << Court.find_by(id: game.court_id)
