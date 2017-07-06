@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 		namespace :v1 do 
 			resources :users, only: [:create, :destroy, :show, :update]
 			resources :games, only: [:create, :update, :destroy, :show, :index]
+			resources :courts, only: [:index]
 
 			get 'users/:id/history', to: 'users#history'
 

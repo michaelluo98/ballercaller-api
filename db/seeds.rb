@@ -37,7 +37,7 @@ courts = Court.create([
 	{name: 'Queen Elizabeth Park', address: '33rd Avenue', 
 		province: 'BC' , city: 'Vancouver', postal_code: 'V5J 5L1'},
 	{name: 'Kitsilano Beach Park', address: '1499 Arbutus Street', 
-		province: 'BC' , city: 'Vancouver', postal_code: 'V5K 1B5'},
+		province: 'BC' , city: 'Vancouver', postal_code: 'V6J 5N2'},
 	{name: 'Edmonds Community Centre', address: '7433 Edmonds Street', 
 		province: 'BC' , city: 'Vancouver', postal_code: 'V3N 1B2'},
 	{name: '6Pack Beach', address: '13180 Mitchell Road', 
