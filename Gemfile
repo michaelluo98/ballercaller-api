@@ -33,6 +33,8 @@ gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'geocoder'
 
+gem 'jwt'
+
 
 
 group :development, :test do

@@ -2,6 +2,7 @@ class Api::V1::GamesController < Api::BaseController
 	before_action :authenticate_user!, except: [:index, :show]
   before_action :find_game, only: [:show, :update, :destroy]
 	before_action :authenticate_mod!, only: [:destroy, :update]
+	skip_before_action :authenticate
 
 	def index
 		@games = Game.where('start_time > ?', DateTime.now).where(status: 'waiting')
