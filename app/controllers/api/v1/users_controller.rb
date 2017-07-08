@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::BaseController
   before_action :find_user, only: [:destroy, :history]
-	before_action :authenticate_user!, only: [:destroy, :history, :update]
+	#before_action :authenticate_user!, only: [:destroy, :history, :update]
 	#skip_before_action :verify_authenticity_token
 	skip_before_action :authenticate
 
