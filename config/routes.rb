@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 			resources :games, only: [:create, :update, :destroy, :show, :index]
 			resources :courts, only: [:index]
 
+			post '/games/find', to: 'games#find'
+
 			post '/login', to: "sessions#create" 
 
 			get 'users/:id/history', to: 'users#history'

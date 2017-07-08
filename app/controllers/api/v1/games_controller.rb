@@ -1,5 +1,5 @@
 class Api::V1::GamesController < Api::BaseController
-	before_action :authenticate_user!, except: [:index, :show]
+	before_action :authenticate_user!, except: [:index, :show, :find]
   before_action :find_game, only: [:show, :update, :destroy]
 	before_action :authenticate_mod!, only: [:destroy, :update]
 	skip_before_action :authenticate
@@ -30,6 +30,30 @@ class Api::V1::GamesController < Api::BaseController
 			render json: { status: :failure,
 										 error: game.errors.full_messages.join('') }
 		end
+	end
+
+	def find 
+		name = game_params[:name] == '' ? nil : game_params[:name] 
+		mode = game_params[:mode] == '' ? nil : game_params[:mode]
+		court_id = game_params[:court_id] == '' ? nil : game_params[:court_id]
+		setting = game_params[:setting] == '' ? nil : game_params[:setting]
+		games = Game.all
+		if (name) 
+			games = games.where(name: name)
+		end
+		if (mode) 
+			games = games.where(mode: mode)
+		end
+		if (court_id)
+			games = games.where(court_id: court_id)
+		end
+		if (setting)
+			games = games.where(setting: setting)
+		end
+		render json: {
+			status: :success, 
+			games: games
+		}
 	end
 
 	def destroy
@@ -87,7 +111,8 @@ class Api::V1::GamesController < Api::BaseController
 			:extra_info,
 			:status,
 			:court_id,
-			:name
+			:name, 
+			:setting
 		)
 	end
 
@@ -98,15 +123,3 @@ class Api::V1::GamesController < Api::BaseController
 	end
 
 end
-
-{
-	"game": {
-		"game_mod_id":"5",
-		"mode":"threes",
-  	"status":"waiting",
-		"extra_info":"blahblahblah",
-		"start_time":"Thu, 22 Jun 2017 22:55:02 -0700",
-		"court_id":"11",
-    "name":"blahblah"
-	}
-}
