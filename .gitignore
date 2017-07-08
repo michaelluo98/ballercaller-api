@@ -9,6 +9,8 @@
 
 .env
 /config/secrets.yml
+*.swp
+
 
 # Ignore all logfiles and tempfiles.
 /log/*
