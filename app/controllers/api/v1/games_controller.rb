@@ -1,5 +1,5 @@
 class Api::V1::GamesController < Api::BaseController
-	before_action :authenticate_user!, except: [:index, :show, :find]
+	#before_action :authenticate_user!, except: [:index, :show, :find,
   before_action :find_game, only: [:show, :update, :destroy]
 	before_action :authenticate_mod!, only: [:destroy, :update]
 	skip_before_action :authenticate
@@ -38,6 +38,7 @@ class Api::V1::GamesController < Api::BaseController
 		court_id = game_params[:court_id] == '' ? nil : game_params[:court_id]
 		setting = game_params[:setting] == '' ? nil : game_params[:setting]
 		games = Game.all
+		@courts = []
 		if (name) 
 			games = games.where(name: name)
 		end
@@ -50,9 +51,15 @@ class Api::V1::GamesController < Api::BaseController
 		if (setting)
 			games = games.where(setting: setting)
 		end
+		if (games.length > 0)
+			games.each do |game|
+				@courts << Court.find_by(id: game.court_id)
+			end
+		end
 		render json: {
 			status: :success, 
-			games: games
+			games: games, 
+			courts: @courts
 		}
 	end
 
@@ -93,6 +100,14 @@ class Api::V1::GamesController < Api::BaseController
 		}
 	end
 
+	def last 
+		lastGameId = Game.last.id
+		render json: {
+			status: :success, 
+			lastGameId: lastGameId
+		}
+	end
+
 	private
 
 	def find_game
@@ -109,7 +124,6 @@ class Api::V1::GamesController < Api::BaseController
 			:mode,
 			:start_time,
 			:extra_info,
-			:status,
 			:court_id,
 			:name, 
 			:setting
