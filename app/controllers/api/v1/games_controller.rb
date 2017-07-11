@@ -97,7 +97,8 @@ class Api::V1::GamesController < Api::BaseController
 		render json: {
 			status: :success,
 			game: @game,
-			teams: teams
+			teamone: teams[0], 
+			teamtwo: teams[1]
 		}
 	end
 

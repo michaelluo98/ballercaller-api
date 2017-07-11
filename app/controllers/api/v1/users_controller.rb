@@ -36,18 +36,22 @@ class Api::V1::UsersController < Api::BaseController
 		}
 	end
 
+	def favorites 
+		@user = User.find_by(id: params[:id]) 
+		favorites = @user.favoriteteammates
+		render json: {
+			status: :success, 
+			favorites: favorites
+		}
+	end
+
 	def show 
-		puts '--------------------email------------------'
-		puts params[:id]
-	
 		user = User.find_by(id: params[:id])
 		user ||= User.find_by(email: "#{params[:id]}.com")
 		render json: {
 			status: :success, 
 			user: user
 		}
-		puts '---------------------currentuser---------------------'
-		puts user
 	end
 
 	def update 

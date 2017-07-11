@@ -1,8 +1,10 @@
 class Api::V1::TeamsController < Api::BaseController
 	before_action :find_team, only: [:join, :quit]
+	skip_before_action :authenticate
 
 	def quickjoin 
 		game = Game.find_by(id: params[:id])
+		currentuser = User.find_by(id: current_user_params[:id])
 		teams = Team.where(game: game)
 		teamone = teams[0]
 		teamtwo = teams[1]
@@ -10,14 +12,13 @@ class Api::V1::TeamsController < Api::BaseController
 		teamtwo_len = teamtwo.players.length
 		team_max = game.read_attribute_before_type_cast(:mode) + 3
 		game_max = team_max * 2
-		if (team_max <= teamone_len) 
-			&& (team_max <= teamtwo_len)
+		if ((team_max <= teamone_len) && (team_max <= teamtwo_len))
 			render json: {
 				status: :failure, 
 				errors: 'The teams are both already full'
 			}
 		elsif (teamone_len > teamtwo_len)
-			teamtwo.players << current_user
+			teamtwo.players << currentuser
 			if (teamtwo.players.length + teamone.players.length == game_max) 
 				game.update(status: 'full')
 			end
@@ -28,7 +29,7 @@ class Api::V1::TeamsController < Api::BaseController
 				otherteam: teamone
 			}
 		else 
-			teamone.players << current_user 
+			teamone.players << currentuser 
 			if (teamtwo.players.length + teamone.players.length == game_max) 
 				game.update(status: 'full')
 			end
@@ -74,9 +75,32 @@ class Api::V1::TeamsController < Api::BaseController
 		end
 	end
 
+	def index
+		@teams = Team.all
+		render json: {
+			status: :success, 
+			teams: @teams
+		}
+	end
+
+	def players 
+		game = Game.find_by(id: params[:id])
+		teams = game.teams
+		render json: {
+			status: :success, 
+			playersOne: teams[0].players, 
+			playersTwo: teams[1].players
+		}
+	end
+	
+
 	private
 
 	def find_team 
 		@team = Team.find_by(id: params[:team_id])
+	end
+
+	def current_user_params
+		params.require(:user).permit(:id)
 	end
 end

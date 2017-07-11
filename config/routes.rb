@@ -7,11 +7,14 @@ Rails.application.routes.draw do
 			resources :games, only: [:create, :update, :destroy, :show, :index]
 			resources :courts, only: [:index]
 
+			get '/teams', to: 'teams#index'
+			get '/games/:id/players', to: 'teams#players'
 			post '/games/find', to: 'games#find'
 
 			post '/login', to: "sessions#create" 
 
 			get 'users/:id/history', to: 'users#history'
+			get 'users/:id/favorites', to: 'users#favorites'
 
 			post 'users/:id/friendships', to: 'friendships#sendrequest'
 			patch 'users/:id/friendships/:friend_id/accept', to: 'friendships#accept'
