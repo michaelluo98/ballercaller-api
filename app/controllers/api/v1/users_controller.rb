@@ -44,9 +44,18 @@ class Api::V1::UsersController < Api::BaseController
 			favorites << teammate.teammate 
 		end
 
+		favoritesId = []
+		favorites.each do |friend| 
+			favoritesId << friend.id 
+		end
+
+		others = User.where.not(id: favoritesId)
+
+		favoriteteammates = others + favorites
+
 		render json: {
 			status: :success, 
-			favorites: favorites
+			favorites: favoriteteammates
 		}
 	end
 

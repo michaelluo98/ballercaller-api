@@ -1,4 +1,5 @@
 Favoriteteammate.destroy_all
+Favoritecourt.destroy_all
 User.delete_all
 Court.delete_all
 Game.delete_all
@@ -15,7 +16,35 @@ PASSWORD = 'pass123'
 	)
 end
 
-User.create(
+jacky = User.create(
+	first_name: 'Jacky',
+	last_name: 'Sio',
+	email: 'jackysio@gmail.com',
+	password: PASSWORD
+)
+
+daniel = User.create(
+	first_name: 'Daniel',
+	last_name: 'Kim',
+	email: 'danielkim@gmail.com',
+	password: PASSWORD
+)
+
+jason = User.create(
+	first_name: 'Jason',
+	last_name: 'Tam',
+	email: 'jasontam@gmail.com',
+	password: PASSWORD
+)
+
+spencer = User.create(
+	first_name: 'Spencer',
+	last_name: 'Cheung',
+	email: 'spencercheugn@gmail.com',
+	password: PASSWORD
+)
+
+michael = User.create(
 	first_name: 'Michael',
 	last_name: 'Luo',
 	email: 'michaelluo98@gmail.com',
@@ -45,17 +74,6 @@ courts = Court.create([
 		province: 'BC' , city: 'Richmond', postal_code: 'V6V 1M8'}
 ])
 
-#10.times do
-	#Court.create(
-		#address: Faker::Address.street_address,
-		#postal_code: Faker::Address.zip_code,
-		#unit_num: Faker::Address.building_number,
-		#city: Faker::Address.city
-	#)
-#end
-
-#courts = Court.all
-
 modes = [:threes, :fours, :fives]
 statuses = [:waiting, :full, :over]
 
@@ -77,6 +95,25 @@ statuses = [:waiting, :full, :over]
 	t.players << u
 	Team.create(game: g, name: "#{g.name} #2")
 end
+
+g = Game.create(
+	game_mod: spencer,
+	name: 'Dominate Jason',
+	mode: modes[0],
+	start_time: Faker::Time.between(Date.today,
+																	rand(1..20).days.from_now,
+																	:afternoon),
+	extra_info: "its a good day when you dominate jason",
+	status: statuses[0],
+	court: courts.second,
+	setting: true.sample
+)
+
+t = Team.create(game: g, name: "#{g.name} #1")
+t.players << spencer
+t.players << users.sample
+t2 = Team.create(game: g, name: "#{g.name} #2")
+t2.players << jason
 
 games = Game.all
 teams = Team.all
@@ -146,6 +183,22 @@ users.each do |user|
 															interactions: rand(1..10),
 															is_friend: is_friend)
 		end
+	end
+end
+
+all_friends = [jason, jacky, daniel]
+
+all_friends.each do |friend|
+	if (Favoriteteammate
+			.where(user: [michael, jacky], teammate: [michael, jacky]).length == 0) 
+		Favoriteteammate.create(user: michael, 
+														teammate: friend, 
+														interactions: rand(11..15),
+														is_friend: true)
+		Favoriteteammate.create(user: friend, 
+														teammate: michael, 
+														interactions: rand(11..15),
+														is_friend: true)
 	end
 end
 

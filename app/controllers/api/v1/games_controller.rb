@@ -24,7 +24,6 @@ class Api::V1::GamesController < Api::BaseController
 			UpdateGameStatusJob.set(wait_until: game.start_time).perform_later(game)
 			t = Team.create(game: game, name: "#{game.name} #1")
 			Team.create(game: game, name: "#{game.name} #2")
-			t.players << User.find_by(id: game_params[:game_mod_id])
 			render json: { status: :success, 
 											id: game.id, 
 											teamOneId: game.teams[0].id, 
