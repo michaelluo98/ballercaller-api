@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 			resources :courts, only: [:index]
 
 			get '/teams', to: 'teams#index'
+			post '/teams/:id', to: 'teams#jointeam'
 			get '/games/:id/players', to: 'teams#players'
 			post '/games/find', to: 'games#find'
 

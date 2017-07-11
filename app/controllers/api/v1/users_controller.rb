@@ -38,7 +38,12 @@ class Api::V1::UsersController < Api::BaseController
 
 	def favorites 
 		@user = User.find_by(id: params[:id]) 
-		favorites = @user.favoriteteammates
+		teammates = @user.favoriteteammates
+		favorites = []
+		teammates.each do |teammate| 
+			favorites << teammate.teammate 
+		end
+
 		render json: {
 			status: :success, 
 			favorites: favorites

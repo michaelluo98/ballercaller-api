@@ -92,12 +92,45 @@ class Api::V1::TeamsController < Api::BaseController
 			playersTwo: teams[1].players
 		}
 	end
+
+	def jointeam 
+		team = Team.find_by(id: params[:id])
+		players = team_params[:players_attributes]
+		puts "--------------players: #{players}"
+
+		#converted = Hash[ players.tap { |key, value| [key.to_h, value.to_s] } ]
+		converted = players.to_h
+		converted.each do |id|
+			puts "#{id[1]['id']} new id"
+			newPlayer = User.find_by(id: id[1]['id'])
+			team.players << newPlayer
+		end
+		puts "---------------NEW TEAM: #{team.players}"
+
+		#players.each do |player| 
+			#puts "player ---------------- #{player}"
+			#player.each do |id| 
+				#puts "-------------playerId: #{id}"
+			#end
+		#end
+		render json: {
+			status: :success, 
+			team: team 
+		}
+	end
 	
 
 	private
 
 	def find_team 
 		@team = Team.find_by(id: params[:team_id])
+	end
+
+	def team_params
+		params.require(:team).permit(
+			players_attributes: [:id, :first_name, :last_name, :email, :api_key,
+												:password_digest, :created_at, :updated_at]
+		)
 	end
 
 	def current_user_params
