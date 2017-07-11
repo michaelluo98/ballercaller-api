@@ -96,23 +96,14 @@ class Api::V1::TeamsController < Api::BaseController
 	def jointeam 
 		team = Team.find_by(id: params[:id])
 		players = team_params[:players_attributes]
-		puts "--------------players: #{players}"
-
-		#converted = Hash[ players.tap { |key, value| [key.to_h, value.to_s] } ]
 		converted = players.to_h
+
 		converted.each do |id|
 			puts "#{id[1]['id']} new id"
 			newPlayer = User.find_by(id: id[1]['id'])
 			team.players << newPlayer
 		end
-		puts "---------------NEW TEAM: #{team.players}"
 
-		#players.each do |player| 
-			#puts "player ---------------- #{player}"
-			#player.each do |id| 
-				#puts "-------------playerId: #{id}"
-			#end
-		#end
 		render json: {
 			status: :success, 
 			team: team 
