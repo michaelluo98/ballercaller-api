@@ -40,6 +40,10 @@ class Api::V1::GamesController < Api::BaseController
 		court_id = game_params[:court_id] == '' ? nil : game_params[:court_id]
 		setting = game_params[:setting] == '' ? nil : game_params[:setting]
 		games = Game.all
+    #games = games.where(name: game_params[:name]) if game_params[:name]
+		#games = games.where(mode: game_params[:mode]) if game_params[:mode]
+		#games = games.where(court_id: game_params[:court_id]) if game_params[:court_id]
+		#games = games.where(setting: game_params[:setting]) if game_params[:court_id]
 		@courts = []
 		if (name) 
 			games = games.where(name: name)

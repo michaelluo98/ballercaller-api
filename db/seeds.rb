@@ -40,7 +40,7 @@ jason = User.create(
 spencer = User.create(
 	first_name: 'Spencer',
 	last_name: 'Cheung',
-	email: 'spencercheugn@gmail.com',
+	email: 'spencercheung@gmail.com',
 	password: PASSWORD
 )
 
@@ -58,7 +58,7 @@ courts = Court.create([
 		province: 'BC' , city: 'Vancouver', postal_code: 'V5Y 1Y6'},
 	{name: 'Robert Lee YCMA', address: '955 Burrard Street',
 		province: 'BC' , city: 'Vancouver', postal_code: 'V6Z 1Y2'},
-	{name: 'Hillcret Recreation Centre', address: '4575 Clancy Loranger Way',
+	{name: 'Hillcrest Recreation Centre', address: '4575 Clancy Loranger Way',
 		province: 'BC' , city: 'Vancouver', postal_code: 'V5Y 2M4'},
 	{name: 'Stanley Park', address: '1166 Stanley Park Drive',
 		province: 'BC' , city: 'Vancouver', postal_code: 'V6J 5L1'},
@@ -97,16 +97,16 @@ statuses = [:waiting, :full, :over]
 end
 
 g = Game.create(
-	game_mod: spencer,
-	name: 'Dominate Jason',
+	game_mod: daniel,
+	name: 'Dominate Jacky',
 	mode: modes[0],
 	start_time: Faker::Time.between(Date.today,
 																	rand(1..20).days.from_now,
 																	:afternoon),
-	extra_info: "its a good day when you dominate jason",
+	extra_info: "its a good day when you dominate Jacky",
 	status: statuses[0],
 	court: courts.second,
-	setting: true.sample
+	setting: true
 )
 
 t = Team.create(game: g, name: "#{g.name} #1")
