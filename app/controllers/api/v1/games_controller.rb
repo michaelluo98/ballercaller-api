@@ -38,15 +38,16 @@ class Api::V1::GamesController < Api::BaseController
 	end
 
 	def find 
-		name = game_params[:name] == '' ? nil : game_params[:name] 
-		mode = game_params[:mode] == '' ? nil : game_params[:mode]
-		court_id = game_params[:court_id] == '' ? nil : game_params[:court_id]
-		setting = game_params[:setting] == '' ? nil : game_params[:setting]
-		games = Game.all
     #games = games.where(name: game_params[:name]) if game_params[:name]
 		#games = games.where(mode: game_params[:mode]) if game_params[:mode]
 		#games = games.where(court_id: game_params[:court_id]) if game_params[:court_id]
 		#games = games.where(setting: game_params[:setting]) if game_params[:court_id]
+		name = game_params[:name] == '' ? nil : game_params[:name] 
+		mode = game_params[:mode] == '' ? nil : game_params[:mode]
+		court_id = game_params[:court_id] == '' ? nil : game_params[:court_id]
+		setting = game_params[:setting] == '' ? nil : game_params[:setting]
+		start_time = game_params[:start_time] == '' ? nil: game_params[:start_time]
+		games = Game.all
 		@courts = []
 		@creators = []
 		if (name) 
@@ -60,6 +61,13 @@ class Api::V1::GamesController < Api::BaseController
 		end
 		if (setting)
 			games = games.where(setting: setting)
+		end
+		if (start_time) 
+			puts "starttime at begginning of day: #{start_time.to_datetime.at_beginning_of_day}"
+			puts "starttime at end of day: #{start_time.to_datetime.at_end_of_day}"
+			games = games.where("start_time BETWEEN ? AND ?", 
+													start_time.to_datetime.at_beginning_of_day, 
+													start_time.to_datetime.at_end_of_day)
 		end
 		if (games.length > 0)
 			games.each do |game|
