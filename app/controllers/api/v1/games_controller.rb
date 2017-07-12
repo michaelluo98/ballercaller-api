@@ -7,13 +7,16 @@ class Api::V1::GamesController < Api::BaseController
 	def index
 		@games = Game.where('start_time > ?', DateTime.now)
 		@courts = []
+		@creators = []
 		@games.each do |game|
 			@courts << Court.find_by(id: game.court_id)
+			@creators << User.find_by(id: game.game_mod_id)
 		end
 		render json: {
 			status: :success,
 			games: @games,
-			courts: @courts
+			courts: @courts, 
+			creators: @creators
 		}
 	end
 
@@ -45,6 +48,7 @@ class Api::V1::GamesController < Api::BaseController
 		#games = games.where(court_id: game_params[:court_id]) if game_params[:court_id]
 		#games = games.where(setting: game_params[:setting]) if game_params[:court_id]
 		@courts = []
+		@creators = []
 		if (name) 
 			games = games.where(name: name)
 		end
@@ -60,12 +64,14 @@ class Api::V1::GamesController < Api::BaseController
 		if (games.length > 0)
 			games.each do |game|
 				@courts << Court.find_by(id: game.court_id)
+				@creators << User.find_by(id: game.game_mod_id)
 			end
 		end
 		render json: {
 			status: :success, 
 			games: games, 
-			courts: @courts
+			courts: @courts, 
+			creators: @creators 
 		}
 	end
 
