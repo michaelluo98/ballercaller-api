@@ -22,14 +22,13 @@ class Api::V1::FriendshipsController < Api::BaseController
 	end
 
 	def accept
-		u = User.find_by(id: params[:friend_id])
-		f = Friendship.find_by(user: u, friend: current_user) 
-		puts current_user.id
-		puts u.id
+		sender = User.find_by(id: params[:friend_id])
+		recipient = User.find_by(id: params[:id])
+		f = Friendship.find_by(user: sender, friend: recipient) 
 		f.assign_attributes(status: 1)
 		if f.save 
-			new_friendship = Friendship.create(user: current_user, 
-																				 friend: u, 
+			new_friendship = Friendship.create(user: recipient, 
+																				 friend: sender, 
 																				 status: 1)
 			render json: {
 				status: :success, 
@@ -45,8 +44,9 @@ class Api::V1::FriendshipsController < Api::BaseController
 	end
 
 	def reject
-		u = User.find_by(id: params[:friend_id])
-		f = Friendship.find_by(user: u, friend: current_user)
+		sender = User.find_by(id: params[:friend_id])
+		recipient = User.find_by(id: params[:id])
+		f = Friendship.find_by(user: sender, friend: recipient)
 		f.assign_attributes(status: 2)
 		if f.save 
 			render json: {
@@ -64,20 +64,22 @@ class Api::V1::FriendshipsController < Api::BaseController
 	def index
 		requests = []
 		friends = []
+		#requests_status = []
 		u = User.find_by(id: params[:id])
-		friendships_all = Friendship.where(user: u) 
+		friendships_all = Friendship.where(friend: u) 
 		friendships_all.each do |friendship| 
 			if (friendship.status == 'requested') 
-				requests.push(User.find_by(id: friendship.friend_id))
+				requests.push(User.find_by(id: friendship.user_id))
+				#requests_status.push(friendship)
 			elsif (friendship.status == 'accepted') 
-				friends.push(User.find_by(id: friendship.friend_id))
-			else 
+				friends.push(User.find_by(id: friendship.user_id))
 			end
 		end
 		render json: {
 			status: :success, 
 			requests: requests, 
-			friends: friends
+			friends: friends, 
+			#requests_status: requests_status
 		}
 	end
 
