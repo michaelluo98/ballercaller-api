@@ -1,5 +1,6 @@
 class Api::V1::FriendshipsController < Api::BaseController
 	before_action :find_friend, only: [:sendrequest]
+	skip_before_action :authenticate
 
 	def sendrequest
 		f = Friendship.new(user: current_user, friend: @friend, status: 0)
@@ -58,9 +59,18 @@ class Api::V1::FriendshipsController < Api::BaseController
 	end
 
 	def index
-		#u = User.find_by(id: params[:id])
-		requests = Friendship.where(user: current_user, status: 0) 
-		friends = Friendship.where(user: current_user, status: 1)
+		requests = []
+		friends = []
+		u = User.find_by(id: params[:id])
+		friendships_all = Friendship.where(user: u) 
+		friendships_all.each do |friendship| 
+			if (friendship.status == 'requested') 
+				requests.push(User.find_by(id: friendship.friend_id))
+			elsif (friendship.status == 'accepted') 
+				friends.push(User.find_by(id: friendship.friend_id))
+			else 
+			end
+		end
 		render json: {
 			status: :success, 
 			requests: requests, 

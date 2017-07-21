@@ -144,17 +144,21 @@ end
 
 
 friendship_statuses = [:requested, :accepted, :rejected]
+friendship_good = [:requested, :accepted]
+
 
 users.each do |user|
 	others = User.where.not(id: user.id)
 	rand(0..5).times do
 
 		friend = others.sample
-		if (Friendship.where(user: [user, friend], friend: [user, friend]).nil?)
+		lottery_num = rand(1..3)
+		if (Friendship.where(user: [user, friend], friend: [user, friend]).empty?)
 			status = friendship_statuses.sample
-			if (status != 'rejected')
-				Friendship.create(user: user, friend: friend, status: status)
-				Friendship.create(user: friend, friend: user, status: status)
+			if (status != 'rejected' || lottery_num != 1)
+				good_status = friendship_good.sample
+				Friendship.create(user: user, friend: friend, status: good_status)
+				Friendship.create(user: friend, friend: user, status: good_status)
 			else
 				Friendship.create(user: user, friend: friend, status: 'requested')
 				Friendship.create(user: friend, friend: user, status: 'rejected')
