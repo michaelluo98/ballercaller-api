@@ -78,6 +78,20 @@ class Api::V1::FriendshipsController < Api::BaseController
 		}
 	end
 
+	def friendship_status 
+		u = User.find_by(id: params[:id])
+		friend = User.find_by(id: params[:friend_id])
+		friendship = Friendship.where(user: u, friend: friend)
+		friendship_status = ''
+		friendship.length == 0 ? 
+			friendship_status = 'none' : 
+			friendship_status = friendship[0].status
+		render json: {
+			status: :success, 
+			friendship_status: friendship_status
+		}
+	end
+
 	private 
 
 	def find_friend

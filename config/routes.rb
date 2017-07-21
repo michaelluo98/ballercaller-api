@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 			patch 'users/:id/friendships/:friend_id/accept', to: 'friendships#accept'
 			patch 'users/:id/friendships/:friend_id/reject', to: 'friendships#reject'
 			get 'users/:id/friendships', to: 'friendships#index'
+			get 'users/:id/friendships/:id/status', to: 'friendships#friendship_status'
      
 			post 'friendships/:friend_id/directmessages/send', 
 						to: 'directmessages#sendmessage'
