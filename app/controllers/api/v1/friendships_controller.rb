@@ -3,12 +3,15 @@ class Api::V1::FriendshipsController < Api::BaseController
 	skip_before_action :authenticate
 
 	def sendrequest
-		f = Friendship.new(user: current_user, friend: @friend, status: 0)
+		user = User.find_by(id: params[:id])
+		friend = User.find_by(id: params[:friend_id])
+		f = Friendship.new(user: user, friend: friend, status: 0)
 		if f.save
 			render json: {
 				status: :success,
-				current_user: current_user, 
-				friend: @friend
+				user: user, 
+				friend: friend, 
+				friendship: f
 			}
 		else 
 			render json: {
@@ -83,9 +86,24 @@ class Api::V1::FriendshipsController < Api::BaseController
 		friend = User.find_by(id: params[:friend_id])
 		friendship = Friendship.where(user: u, friend: friend)
 		friendship_status = ''
-		friendship.length == 0 ? 
-			friendship_status = 'none' : 
+		puts '--------------------------------------'
+		puts friendship.length
+		puts friendship
+		puts '--------------------------------------'
+		puts friend
+		puts '--------------------------------------'
+		puts u
+		puts '--------------user id ------------------'
+		puts params[:id]
+		puts '--------------friend id ------------------'
+		puts params[:friend_id]
+	
+		if (friendship.length == 0) 
+			friendship_status = 'none' 
+		else 
 			friendship_status = friendship[0].status
+		end
+
 		render json: {
 			status: :success, 
 			friendship_status: friendship_status

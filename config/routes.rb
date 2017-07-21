@@ -17,11 +17,11 @@ Rails.application.routes.draw do
 			get 'users/:id/history', to: 'users#history'
 			get 'users/:id/favorites', to: 'users#favorites'
 
-			post 'users/:id/friendships', to: 'friendships#sendrequest'
+			post 'users/:id/friendships/:friend_id/sendrequest', to: 'friendships#sendrequest'
 			patch 'users/:id/friendships/:friend_id/accept', to: 'friendships#accept'
 			patch 'users/:id/friendships/:friend_id/reject', to: 'friendships#reject'
 			get 'users/:id/friendships', to: 'friendships#index'
-			get 'users/:id/friendships/:id/status', to: 'friendships#friendship_status'
+			get 'users/:id/friendships/:friend_id/status', to: 'friendships#friendship_status'
      
 			post 'friendships/:friend_id/directmessages/send', 
 						to: 'directmessages#sendmessage'
