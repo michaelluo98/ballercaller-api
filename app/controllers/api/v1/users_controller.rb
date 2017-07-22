@@ -91,6 +91,57 @@ class Api::V1::UsersController < Api::BaseController
 		end
 	end
 
+	def historyindex 
+		# need to return users historyGames, historyCourts, historyCreators
+		@historyGames = []
+		@historyCourts = []
+		@historyCreators = []
+		@user = User.find_by(id: params[:id])
+		@user.teams.each do |team| 
+			game = team.game
+			if !@historyGames.include?(game)
+				if (game.start_time < Time.now)
+					@historyGames.push(game) 
+					@historyCourts.push(Court.find_by(id: game.court_id))
+					@historyCreators.push(User.find_by(id: game.game_mod_id))
+				end
+			end
+		end
+
+		render json: {
+			status: :success, 
+			historyGames: @historyGames, 
+			historyCourts: @historyCourts, 
+			historyCreators: @historyCreators
+		}
+
+	end
+
+	def upcomingindex 
+		# return upcomingGames, upcomingCourts, upcomingCreators
+		@upcomingGames = []
+		@upcomingCourts = []
+		@upcomingCreators = []
+		@user = User.find_by(id: params[:id])
+		@user.teams.each do |team| 
+			game = team.game
+			if !@upcomingGames.include?(game) 
+				if (game.start_time > Time.now)
+					@upcomingGames.push(game) 
+					@upcomingCourts.push(Court.find_by(id: game.court_id))
+					@upcomingCreators.push(User.find_by(id: game.game_mod_id))
+				end
+			end
+		end
+
+		render json: {
+			status: :success,
+			upcomingGames: @upcomingGames, 
+			upcomingCourts: @upcomingCourts, 
+			upcomingCreators: @upcomingCreators
+		}
+	end
+
 	private
 
 	def user_params
@@ -106,7 +157,5 @@ class Api::V1::UsersController < Api::BaseController
 	def find_user
 		@user = User.find_by(id: params[:id])
 	end
-
-
 
 end
