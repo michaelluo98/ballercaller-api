@@ -88,18 +88,6 @@ class Api::V1::FriendshipsController < Api::BaseController
 		friend = User.find_by(id: params[:friend_id])
 		friendship = Friendship.where(user: u, friend: friend)
 		friendship_status = ''
-		puts '--------------------------------------'
-		puts friendship.length
-		puts friendship
-		puts '--------------------------------------'
-		puts friend
-		puts '--------------------------------------'
-		puts u
-		puts '--------------user id ------------------'
-		puts params[:id]
-		puts '--------------friend id ------------------'
-		puts params[:friend_id]
-	
 		if (friendship.length == 0) 
 			friendship_status = 'none' 
 		else 

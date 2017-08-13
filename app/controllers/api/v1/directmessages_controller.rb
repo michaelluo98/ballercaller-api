@@ -35,7 +35,7 @@ class Api::V1::DirectmessagesController < Api::BaseController
 	private
 
 	def message_params 
-		params.require(:message)
+		params.require(:directmessage).permit(:message, :sender_id, :recipient_id)
 	end
 
 

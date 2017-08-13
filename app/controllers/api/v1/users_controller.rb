@@ -5,7 +5,6 @@ class Api::V1::UsersController < Api::BaseController
 	skip_before_action :authenticate
 
 	def create
-		puts '-------------------------------'
 		puts user_params
 		user = User.new(user_params)
 		if user.save
