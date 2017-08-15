@@ -37,6 +37,13 @@ Rails.application.configure do
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
+	# to specify the socket url 
+	config.action_cable.url = "ws://localhost:3000/cable"
+
+	# to allow for requests from outside, currently development only
+	confing.action_cable.allowed_requests_origins = [
+		'http://localhost:3005'
+	]
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
