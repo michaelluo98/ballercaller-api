@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 			get 'users/:id/favorites', to: 'users#favorites'
 			get 'users/:id/historyindex', to: 'users#historyindex'
 			get 'users/:id/upcomingindex', to: 'users#upcomingindex'
+			get 'users/:id/friends', to: 'users#indexfriends'
 
 			post 'users/:id/friendships/:friend_id/sendrequest', to: 'friendships#sendrequest'
 			patch 'users/:id/friendships/:friend_id/accept', to: 'friendships#accept'

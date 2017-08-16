@@ -141,6 +141,25 @@ class Api::V1::UsersController < Api::BaseController
 		}
 	end
 
+	def indexfriends 
+		u = User.find_by(id: params[:id])
+		friendships = Friendship.where(user: u)
+		friends = []
+		friendships.each do |f|
+			if f.status == 'accepted'
+				friend = User.find_by(id: f.friend_id)
+				friends.push(friend)
+			end
+		end
+		puts "friendships: #{friends}"
+
+		render json: {
+			status: :success, 
+			friends: friends
+		}
+
+	end
+
 	private
 
 	def user_params
