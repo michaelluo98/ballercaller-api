@@ -29,9 +29,9 @@ Rails.application.routes.draw do
 			get 'users/:id/friendships', to: 'friendships#index'
 			get 'users/:id/friendships/:friend_id/status', to: 'friendships#friendship_status'
      
-			post 'friendships/:friend_id/directmessages/send', 
+			post 'friendships/:id/:friend_id/directmessages/send', 
 						to: 'directmessages#sendmessage'
-			get 'friendships/:friend_id/directmessages/', 
+			get 'friendships/:id/directmessages/', 
 						to: 'directmessages#index'
 						
 			post 'games/:id/quickjoin', to: 'teams#quickjoin'

@@ -2,7 +2,7 @@
 # Action Cable runs in a loop that does not support auto reloading.
 class MessagesChannel < ApplicationCable::Channel
 	def subscribed 
-		stream_from 'RoomChannel'
+		stream_from 'room_channel'
 	end
   #def subscribed
     # stream_from "some_channel"

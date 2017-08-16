@@ -41,9 +41,15 @@ Rails.application.configure do
 	config.action_cable.url = "ws://localhost:3000/cable"
 
 	# to allow for requests from outside, currently development only
-	confing.action_cable.allowed_requests_origins = [
-		'http://localhost:3005'
+	config.action_cable.allowed_request_origins = [
+		'http://localhost:3005', 
+		# temporary to allow for clock example
+		'file://'
 	]
+
+	# temporary test to allow requests from all
+	#config.action_cable.allowed_request_origins = *	
+
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
