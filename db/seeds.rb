@@ -12,7 +12,8 @@ PASSWORD = 'pass123'
 		first_name: Faker::Name.first_name,
 		last_name: Faker::Name.last_name,
 		email: Faker::Internet.email,
-		password: PASSWORD
+		password: PASSWORD, 
+		status: [true, false].sample
 	)
 end
 
@@ -20,35 +21,40 @@ jacky = User.create(
 	first_name: 'Jacky',
 	last_name: 'Sio',
 	email: 'jackysio@gmail.com',
-	password: PASSWORD
+	password: PASSWORD, 
+	status: [true, false].sample
 )
 
 daniel = User.create(
 	first_name: 'Daniel',
 	last_name: 'Kim',
 	email: 'danielkim@gmail.com',
-	password: PASSWORD
+	password: PASSWORD,
+	status: [true, false].sample
 )
 
 jason = User.create(
 	first_name: 'Jason',
 	last_name: 'Tam',
 	email: 'jasontam@gmail.com',
-	password: PASSWORD
+	password: PASSWORD,
+	status: [true, false].sample
 )
 
 spencer = User.create(
 	first_name: 'Spencer',
 	last_name: 'Cheung',
 	email: 'spencercheung@gmail.com',
-	password: PASSWORD
+	password: PASSWORD,
+	status: [true, false].sample
 )
 
 michael = User.create(
 	first_name: 'Michael',
 	last_name: 'Luo',
 	email: 'michaelluo98@gmail.com',
-	password: PASSWORD
+	password: PASSWORD,
+	status: [true, false].sample
 )
 
 users = User.all
