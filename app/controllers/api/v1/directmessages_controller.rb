@@ -27,17 +27,45 @@ class Api::V1::DirectmessagesController < Api::BaseController
 
 	def index
 		current_user = User.find_by(id: params[:id])
-		#friend = User.find_by(id: params[:friend_id])
-		sent_dms = Directmessage.where(sender: current_user)
-		received_dms = Directmessage.where(recipient: current_user)
-		# ??? need to have all from the current_user and/or seperate into chatrooms?
-		ActionCable.server.broadcast 'room_channel', 
-																	content: Directmessage.last(10)
+		current_user_id = current_user.id
+		# seperate into object w/ key of other user, and value of arr of messages 
+		#     then ordered by date
+		unsorted_msgs = Directmessage.where("sender_id = ? or recipient_id = ?", current_user_id, current_user_id)
+		chat_ids = []
+		# get the unique chat_ids 
+		unsorted_msgs.each do |msg| 
+			if (!chat_ids.include?(msg.sender_id))
+				chat_ids.push(msg.sender_id)
+			end 
+			if (!chat_ids.include?(msg.recipient_id))
+				chat_ids.push(msg.recipient_id)
+			end
+		end
+		chat_ids.delete(current_user_id)
+
+		# sort messages by time 
+		#unsorted_msgs.sort!{ |x,y| x.created_at <=> y.created_at }
+		unsorted_msgs.order(:created_at)
+
+		# sort messages by chatID
+		sorted_msgs = {}
+		chat_ids.each do |chat_id| 
+			msgs = []
+			unsorted_msgs.each do |msg| 
+				if (msg.sender_id == chat_id || msg.recipient_id == chat_id) 
+					msgs.push(msg)
+				end
+			end
+			sorted_msgs[chat_id] = msgs
+		end
+		
+		# even need to broadcast data? 
+		#ActionCable.server.broadcast 'room_channel', 
+		#															content: sorted_msgs
 
 		render json: {
 			status: :success,
-			sent: sent_dms,
-			received: received_dms
+			messages: sorted_msgs
 		}
 	end
 
