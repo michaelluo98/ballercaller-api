@@ -8,14 +8,11 @@ class Api::V1::DirectmessagesController < Api::BaseController
 		dm = Directmessage.new(sender: sender, recipient: recipient, message: message)
 		if dm.save
 			# to send data to the subscriber(S) of a channel 'messages' stream
-			ActionCable.server.broadcast 'room_channel', 
-																		content: Directmessage.last(10)
-			# 														 content: dm.message,
-			# 														 sender: dm.sender,
-			# 														 recipient: dm.recipient
+			ActionCable.server.broadcast "room_#{params[:friend_id]}", 
+																		new_message: Directmessage.last
 			render json: {
 				status: :success,
-				directmessage: dm
+				message: dm
 			}
 		else
 			render json: {
@@ -44,14 +41,13 @@ class Api::V1::DirectmessagesController < Api::BaseController
 		chat_ids.delete(current_user_id)
 
 		# sort messages by time 
-		#unsorted_msgs.sort!{ |x,y| x.created_at <=> y.created_at }
-		unsorted_msgs.order(:created_at)
+		sorted_by_time_msgs = unsorted_msgs.order(:created_at)
 
 		# sort messages by chatID
 		sorted_msgs = {}
 		chat_ids.each do |chat_id| 
 			msgs = []
-			unsorted_msgs.each do |msg| 
+			sorted_by_time_msgs.each do |msg| 
 				if (msg.sender_id == chat_id || msg.recipient_id == chat_id) 
 					msgs.push(msg)
 				end
@@ -59,10 +55,6 @@ class Api::V1::DirectmessagesController < Api::BaseController
 			sorted_msgs[chat_id] = msgs
 		end
 		
-		# even need to broadcast data? 
-		#ActionCable.server.broadcast 'room_channel', 
-		#															content: sorted_msgs
-
 		render json: {
 			status: :success,
 			messages: sorted_msgs
