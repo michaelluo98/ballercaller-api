@@ -13,7 +13,8 @@ PASSWORD = 'pass123'
 		last_name: Faker::Name.last_name,
 		email: Faker::Internet.email,
 		password: PASSWORD, 
-		status: [true, false].sample
+		status: [true, false].sample, 
+		minimized: true
 	)
 end
 
@@ -22,7 +23,8 @@ jacky = User.create(
 	last_name: 'Sio',
 	email: 'jackysio@gmail.com',
 	password: PASSWORD, 
-	status: [true, false].sample
+	status: [true, false].sample, 
+	minimized: false
 )
 
 daniel = User.create(
@@ -30,7 +32,8 @@ daniel = User.create(
 	last_name: 'Kim',
 	email: 'danielkim@gmail.com',
 	password: PASSWORD,
-	status: [true, false].sample
+	status: [true, false].sample, 
+	minimized: false
 )
 
 jason = User.create(
@@ -38,7 +41,8 @@ jason = User.create(
 	last_name: 'Tam',
 	email: 'jasontam@gmail.com',
 	password: PASSWORD,
-	status: [true, false].sample
+	status: [true, false].sample, 
+	minimized: false
 )
 
 spencer = User.create(
@@ -46,7 +50,8 @@ spencer = User.create(
 	last_name: 'Cheung',
 	email: 'spencercheung@gmail.com',
 	password: PASSWORD,
-	status: [true, false].sample
+	status: [true, false].sample, 
+	minimized: false
 )
 
 michael = User.create(
@@ -54,7 +59,8 @@ michael = User.create(
 	last_name: 'Luo',
 	email: 'michaelluo98@gmail.com',
 	password: PASSWORD,
-	status: [true, false].sample
+	status: [true, false].sample, 
+	minimized: false
 )
 
 users = User.all
