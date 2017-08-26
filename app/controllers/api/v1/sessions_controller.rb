@@ -4,6 +4,10 @@ class Api::V1::SessionsController < Api::BaseController
   def create
     user = User.find_by(email: auth_params[:email])
     if user.authenticate(auth_params[:password])
+			#ActionCable.server.broadcast "room_#{params[:friend_id]}", 
+			#new_message: Directmessage.last
+			user.update(status: true)
+			ActionCable.server.broadcast "general", { user: user }
       jwt = Auth.issue({user: user.id})
       render json: {jwt: jwt}
     else

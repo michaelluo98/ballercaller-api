@@ -4,6 +4,24 @@ class Api::V1::UsersController < Api::BaseController
 	#skip_before_action :verify_authenticity_token
 	skip_before_action :authenticate
 
+	def find_user 
+		user_id = params[:id]
+		user = User.find_by(id: user_id)
+		render json: {
+			user: user, 
+			status: :success
+		}
+	end
+
+	#def update 
+		#user = User.find_by(id: params[:id])
+		#if (params[:status])
+			#user.update(status: true) 
+		#else 
+			#user.update(status: false)
+		#end
+	#end
+
 	def create
 		puts user_params
 		user = User.new(user_params)
@@ -39,8 +57,7 @@ class Api::V1::UsersController < Api::BaseController
 
 	def favorites 
 		@user = User.find_by(id: params[:id]) 
-		teammates = @user.favoriteteammates
-		favorites = []
+		teammates = @user.favoriteteammates favorites = [] 
 		teammates.each do |teammate| 
 			favorites << teammate.teammate 
 		end

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
 			post '/login', to: "sessions#create" 
 
+			get 'users/find/:id', to: 'users#find_user'
 			get 'users/:id/history', to: 'users#history'
 			get 'users/:id/favorites', to: 'users#favorites'
 			get 'users/:id/historyindex', to: 'users#historyindex'
