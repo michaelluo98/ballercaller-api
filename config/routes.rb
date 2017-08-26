@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 			post '/games/find', to: 'games#find'
 
 			post '/login', to: "sessions#create" 
+			patch '/logout/:id', to: "sessions#logout" 
 
 			get 'users/find/:id', to: 'users#find_user'
 			get 'users/:id/history', to: 'users#history'
