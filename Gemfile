@@ -33,6 +33,7 @@ gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'geocoder'
 gem 'knock'
+gem 'faker', github: 'stympy/faker'
 
 gem 'jwt'
 
@@ -46,7 +47,6 @@ group :development, :test do
 	gem 'rails-controller-testing'
 	gem 'factory_girl_rails', '~> 4.0'
 	gem 'shoulda-matchers', '~> 3.1'
-	gem 'faker', github: 'stympy/faker'
 	gem 'database_cleaner'
 	gem 'dotenv-rails'
 end
