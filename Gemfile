@@ -34,7 +34,6 @@ gem 'delayed_job_active_record'
 gem 'geocoder'
 gem 'knock'
 gem 'faker', github: 'stympy/faker'
-
 gem 'jwt'
 
 
