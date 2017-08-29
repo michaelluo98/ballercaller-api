@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: redis://localhost:6379/1
+  url: redis://redistogo:8865c9b8e6de9a860f534e985c5d1fec@crestfish.redistogo.com:11498/
   channel_prefix: ballercaller-api_production

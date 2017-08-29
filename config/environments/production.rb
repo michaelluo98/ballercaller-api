@@ -72,6 +72,14 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
+	# to specify the socket url 
+	config.web_socket_server_url = "wss://ballercaller-api.herokuapp.com/cable"
+
+	# to allow for requests from outside, currently development only
+	config.action_cable.allowed_request_origins = [
+		'http://localhost:3005'
+	]
+
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter

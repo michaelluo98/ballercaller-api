@@ -43,8 +43,9 @@ Rails.application.configure do
 	# to allow for requests from outside, currently development only
 	config.action_cable.allowed_request_origins = [
 		'http://localhost:3005', 
+		'https://localhost:3005',
 		# temporary to allow for clock example
-		'file://'
+		#'file://'
 	]
 
 	# temporary test to allow requests from all
