@@ -75,9 +75,10 @@ Rails.application.configure do
 	# to specify the socket url 
 	config.web_socket_server_url = "wss://ballercaller-api.herokuapp.com/cable"
 
-	# to allow for requests from outside, currently development only
 	config.action_cable.allowed_request_origins = [
-		'http://localhost:3005'
+		'http://localhost:3005',
+		'https://localhost:3005', 
+		'https://ballercaller.herokuapp.com/'
 	]
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?

@@ -5,7 +5,7 @@ Court.delete_all
 Game.delete_all
 Team.delete_all
 
-PASSWORD = 'pass123'
+PASSWORD = 'password'
 
 30.times do
 	User.create(
@@ -63,6 +63,23 @@ michael = User.create(
 	minimized: false
 )
 
+test1 = User.create(
+	first_name: 'Test',
+	last_name: 'User One', 
+	email: 'test@gmail.com', 
+	password: PASSWORD, 
+	status: [true, false].sample, 
+	minimized: false
+)
+
+test2 = User.create(
+	first_name: 'Test',
+	last_name: 'User Two', 
+	email: 'test2@gmail.com', 
+	password: PASSWORD, 
+	status: [true, false].sample, 
+	minimized: false
+)
 users = User.all
 
 courts = Court.create([
@@ -154,10 +171,8 @@ end
 	)
 end
 
-
 friendship_statuses = [:requested, :accepted, :rejected]
 friendship_good = [:requested, :accepted]
-
 
 users.each do |user|
 	others = User.where.not(id: user.id)
@@ -179,6 +194,15 @@ users.each do |user|
 
 	end
 end
+
+
+Friendship.where(user: test1).destroy_all
+Friendship.where(user: test2).destroy_all
+Friendship.where(friend: test1).destroy_all
+Friendship.where(friend: test2).destroy_all
+
+Friendship.create(user: test1, friend: test2, status: 'accepted')
+Friendship.create(user: test2, friend: test1, status: 'accepted')
 
 users.each do |user|
 	others = User.where.not(id: user.id)
@@ -230,4 +254,20 @@ users.each do |user|
 												 recipient: user,
 												 message: Faker::Hipster.paragraph)
 	end
+end
+
+Directmessage.where(sender: test1).destroy_all
+Directmessage.where(sender: test2).destroy_all
+
+test_users = [test1, test2]
+
+3.times do 
+	idx1 = rand(0..1)
+	idx2 = idx1 == 1 ? 0 : 1
+	Directmessage.create(sender: test_users[idx1], 
+											 recipient: test_users[idx2], 
+											 message: Faker::Hipster.sentence)
+	Directmessage.create(sender: test_users[idx2], 
+											 recipient: test_users[idx1], 
+											 message: Faker::Hipster.sentence)
 end
